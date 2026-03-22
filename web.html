@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>PawTrack - Smart Collar for Cats & Dogs</title>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
@@ -23,6 +23,7 @@
 
         html {
             scroll-behavior: smooth;
+            -webkit-text-size-adjust: 100%;
         }
 
         body {
@@ -30,6 +31,10 @@
             color: var(--dark);
             background: var(--light);
             overflow-x: hidden;
+        }
+
+        body.nav-open {
+            overflow: hidden;
         }
 
         /* Header */
@@ -95,6 +100,45 @@
         .cta-button:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 25px rgba(255, 107, 53, 0.4);
+        }
+
+        /* Mobile menu toggle */
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 5px;
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border: 2px solid rgba(0, 0, 0, 0.08);
+            border-radius: 12px;
+            background: white;
+            cursor: pointer;
+            flex-shrink: 0;
+            touch-action: manipulation;
+        }
+
+        .nav-toggle-bar {
+            display: block;
+            width: 22px;
+            height: 2px;
+            background: var(--dark);
+            border-radius: 1px;
+            transition: transform 0.25s ease, opacity 0.2s ease;
+        }
+
+        header.nav-open .nav-toggle-bar:nth-child(1) {
+            transform: translateY(7px) rotate(45deg);
+        }
+
+        header.nav-open .nav-toggle-bar:nth-child(2) {
+            opacity: 0;
+        }
+
+        header.nav-open .nav-toggle-bar:nth-child(3) {
+            transform: translateY(-7px) rotate(-45deg);
         }
 
         /* Hero Section */
@@ -1213,12 +1257,18 @@
             }
 
             .hero h1 {
-                font-size: 3.5rem;
+                font-size: clamp(2.25rem, 5vw, 3.5rem);
+            }
+
+            .stats {
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 2rem;
             }
 
             .hero-collar-display {
-                width: 400px;
-                height: 400px;
+                width: min(400px, 85vw);
+                height: min(400px, 85vw);
             }
 
             .features-grid {
@@ -1248,30 +1298,172 @@
             .footer-content {
                 grid-template-columns: 1fr;
             }
+
+            .pricing-card.featured {
+                transform: none;
+            }
+
+            .pricing-card:hover {
+                transform: none;
+            }
         }
 
         @media (max-width: 768px) {
+            header {
+                padding: max(0.85rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) 0.85rem max(1rem, env(safe-area-inset-left));
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                position: relative;
+                z-index: 1002;
+            }
+
+            .nav-toggle {
+                display: flex;
+                z-index: 1002;
+            }
+
+            nav {
+                position: fixed;
+                inset: 0;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                height: 100vh;
+                height: 100dvh;
+                background: rgba(255, 255, 255, 0.98);
+                backdrop-filter: blur(12px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 1.5rem;
+                padding: 5rem 1.5rem max(2rem, env(safe-area-inset-bottom));
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+                opacity: 0;
+                visibility: hidden;
+                pointer-events: none;
+                transition: opacity 0.25s ease, visibility 0.25s ease;
+                z-index: 1001;
+            }
+
+            header.nav-open nav {
+                opacity: 1;
+                visibility: visible;
+                pointer-events: auto;
+            }
+
+            nav a {
+                font-size: 1.15rem;
+            }
+
+            nav .cta-button {
+                margin-top: 0.5rem;
+                padding: 0.9rem 2rem;
+            }
+
+            .hero {
+                margin-top: 70px;
+                min-height: auto;
+                padding: 1.5rem 1rem 2.5rem;
+            }
+
             .hero h1 {
-                font-size: 2.5rem;
+                font-size: clamp(1.85rem, 7vw, 2.5rem);
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .primary-btn,
+            .secondary-btn {
+                text-align: center;
+            }
+
+            .stats {
+                margin-top: 2rem;
+                gap: 1.25rem;
+            }
+
+            .stat-number {
+                font-size: 2.25rem;
             }
 
             .hero-collar-display {
-                width: 300px;
-                height: 300px;
+                width: min(280px, 75vw);
+                height: min(280px, 75vw);
             }
 
             .hero-collar-display::before {
-                font-size: 8rem;
+                font-size: clamp(5rem, 22vw, 8rem);
+            }
+
+            .features,
+            .personalize-section,
+            .how-it-works,
+            .pricing {
+                padding: 3.5rem 1rem;
+            }
+
+            .section-title {
+                margin-bottom: 2.5rem;
+            }
+
+            .section-title h2,
+            .page-header h1 {
+                font-size: clamp(1.75rem, 6vw, 2.25rem);
+            }
+
+            .section-title p,
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .feature-card {
+                padding: 1.75rem;
+            }
+
+            .collar-preview {
+                padding: 1.5rem;
+                border-radius: 20px;
             }
 
             .collar-display {
-                width: 300px;
-                height: 300px;
+                width: min(300px, 100%);
+                max-width: 100%;
+                height: auto;
+                min-height: 220px;
+                aspect-ratio: 1;
+                margin-left: auto;
+                margin-right: auto;
             }
 
-            .collar-base {
-                width: 250px;
-                height: 70px;
+            #collarBase {
+                max-width: min(302px, calc(100vw - 3rem)) !important;
+                width: min(300px, calc(100vw - 3rem)) !important;
+                height: auto !important;
+                aspect-ratio: 15 / 4;
+            }
+
+            .options-section {
+                padding: 1.5rem;
+                border-radius: 20px;
+            }
+
+            .option-title {
+                font-size: 1.25rem;
+            }
+
+            .pet-type-option {
+                padding: 1.25rem;
             }
 
             .pattern-grid,
@@ -1285,19 +1477,60 @@
 
             .steps {
                 grid-template-columns: 1fr;
+                margin-top: 2rem;
             }
 
-            nav {
-                display: none;
+            .step-number {
+                width: 64px;
+                height: 64px;
+                font-size: 1.5rem;
+            }
+
+            .pricing-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .pricing-card.featured::before {
+                right: 50%;
+                transform: translateX(50%);
+            }
+
+            .price {
+                font-size: 2.5rem;
+            }
+
+            footer {
+                padding: 2.5rem 1rem 1.5rem;
+            }
+        }
+
+        @media (max-width: 380px) {
+            .pattern-grid {
+                gap: 0.75rem;
+            }
+
+            .pattern-name {
+                font-size: 0.75rem;
+                padding: 0.5rem;
+            }
+
+            .hero-collar-display {
+                width: min(240px, 72vw);
+                height: min(240px, 72vw);
             }
         }
     </style>
 </head>
 <body>
     <!-- Header -->
-    <header>
+    <header id="siteHeader">
         <a href="#home" class="logo" onclick="scrollToSection('home')">PawTrack</a>
-        <nav>
+        <button type="button" class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="siteNav">
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+            <span class="nav-toggle-bar"></span>
+        </button>
+        <nav id="siteNav">
             <a href="#features">Features</a>
             <a href="#personalize">Personalize</a>
             <a href="#how-it-works">How It Works</a>
@@ -1761,6 +1994,32 @@
         // Initialize the collar with solid pattern
         window.addEventListener('DOMContentLoaded', function() {
             selectPattern('solid', 'Orange', document.querySelector('.pattern-solid'));
+
+            var header = document.getElementById('siteHeader');
+            var toggle = document.getElementById('navToggle');
+            var nav = document.getElementById('siteNav');
+            if (toggle && header && nav) {
+                function setNavOpen(open) {
+                    header.classList.toggle('nav-open', open);
+                    document.body.classList.toggle('nav-open', open);
+                    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+                    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+                }
+                toggle.addEventListener('click', function() {
+                    setNavOpen(!header.classList.contains('nav-open'));
+                });
+                nav.querySelectorAll('a').forEach(function(link) {
+                    link.addEventListener('click', function() {
+                        setNavOpen(false);
+                    });
+                });
+                window.addEventListener('resize', function() {
+                    if (window.innerWidth > 768) setNavOpen(false);
+                });
+                window.addEventListener('keydown', function(e) {
+                    if (e.key === 'Escape') setNavOpen(false);
+                });
+            }
         });
     </script>
 </body>
